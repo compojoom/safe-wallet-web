@@ -34,14 +34,26 @@ jobs:
       - name: Aggregate Outputs
         run: |
           echo "### Consolidated Output" > consolidated_output.txt
-          echo "" >> consolidated_output.txt
-          echo "####  jest-coverage-report" >> consolidated_output.txt
-          cat  jest-coverage-report.md >> consolidated_output.txt
-          echo "" >> consolidated_output.txt
-          echo "#### Nextjs Bundle Analysis Report" >> consolidated_output.txt
-          cat next-bundle-analysis.txt >> consolidated_output.txt
+           echo "" >> consolidated_output.txt
+           if [ -f jest-coverage-report.md ]; then
+             echo "#### Jest Coverage Report" >> consolidated_output.txt
+             cat jest-coverage-report.md >> consolidated_output.txt
+             echo "" >> consolidated_output.txt
+           else
+             echo "#### Jest Coverage Report not found" >> consolidated_output.txt
+           fi
+           if [ -f next-bundle-analysis.txt ]; then
+             echo "#### Next.js Bundle Analysis Report" >> consolidated_output.txt
+             cat next-bundle-analysis.txt >> consolidated_output.txt
+             echo "" >> consolidated_output.txt
+           else
+             echo "#### Next.js Bundle Analysis Report not found" >> consolidated_output.txt
+           fi
 
+      - uses: jwalton/gh-find-current-pr@v1
+        id: finder
       - name: Post Consolidated Comment
         uses: marocchino/sticky-pull-request-comment@v2
         with:
+          number: ${{ steps.finder.outputs.pr }}
           path: consolidated_output.txt
