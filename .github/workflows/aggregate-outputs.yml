@@ -50,16 +50,14 @@ jobs:
              echo "#### Next.js Bundle Analysis Report not found" >> consolidated_output.txt
            fi
 
+      - name: Get PR information
+        uses: potiuk/get-workflow-origin@v1_6
+        with:
+          token: ${{ secrets.GITHUB_TOKEN }}
+          sourceRunId: ${{ github.event.workflow_run.id }}
+
       - name: Post Consolidated Comment
         uses: marocchino/sticky-pull-request-comment@v2
         with:
-          number: ${{ github.event.workflow_run.id }}
+          number: ${{ steps.source-run-info.outputs.pullRequestNumber }}
           path: consolidated_output.txt
-
-  post_screenshots_in_comment:
-    name: Post the screenshot
-    runs-on: ubuntu-18.0
-    env:
-      EVENT_OBJ:  ${{ toJson(github.event) }}
-    steps:
-      - run: echo $EVENT_OBJ
