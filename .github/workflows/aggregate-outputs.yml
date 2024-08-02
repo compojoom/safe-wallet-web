@@ -52,7 +52,7 @@ jobs:
 
       - name: Get PR information
         id: source-run-info
-        uses: potiuk/get-workflow-origin@v1_6
+        uses: potiuk/get-workflow-origin@v1_5
         with:
           token: ${{ secrets.GITHUB_TOKEN }}
           sourceRunId: ${{ github.event.workflow_run.id }}
