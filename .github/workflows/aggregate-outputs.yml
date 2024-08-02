@@ -53,5 +53,13 @@ jobs:
       - name: Post Consolidated Comment
         uses: marocchino/sticky-pull-request-comment@v2
         with:
-          number: ${{ github.event.workflow_run.pull_requests[0].number }}
+          number: ${{ github.event.workflow_run.id }}
           path: consolidated_output.txt
+
+  post_screenshots_in_comment:
+    name: Post the screenshot
+    runs-on: ubuntu-18.0
+    env:
+      EVENT_OBJ:  ${{ toJson(github.event) }}
+    steps:
+      - run: echo $EVENT_OBJ
