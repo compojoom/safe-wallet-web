@@ -51,6 +51,7 @@ jobs:
            fi
 
       - name: Get PR information
+        id: source-run-info
         uses: potiuk/get-workflow-origin@v1_6
         with:
           token: ${{ secrets.GITHUB_TOKEN }}
