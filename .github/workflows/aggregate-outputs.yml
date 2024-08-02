@@ -16,6 +16,7 @@ jobs:
       - name: Jest Coverage Report
         uses: dawidd6/action-download-artifact@v6
         with:
+          workflow: unit-tests.yml
           commit: ${{github.event.pull_request.head.sha}}
           name:  jest-coverage-report
           path: .
@@ -24,6 +25,7 @@ jobs:
       - name: Nextjs Bundle Analysis Report
         uses: dawidd6/action-download-artifact@v6
         with:
+          workflow: nextjs-bundle-analysis.yml
           commit: ${{github.event.pull_request.head.sha}}
           name: next-bundle-analysis
           path: .
