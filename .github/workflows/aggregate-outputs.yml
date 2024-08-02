@@ -50,10 +50,8 @@ jobs:
              echo "#### Next.js Bundle Analysis Report not found" >> consolidated_output.txt
            fi
 
-      - uses: jwalton/gh-find-current-pr@v1
-        id: finder
       - name: Post Consolidated Comment
         uses: marocchino/sticky-pull-request-comment@v2
         with:
-          number: ${{ steps.finder.outputs.pr }}
+          number: ${{ github.event.workflow_run.pull_requests[0].number }}
           path: consolidated_output.txt
