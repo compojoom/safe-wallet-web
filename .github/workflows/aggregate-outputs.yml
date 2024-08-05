@@ -13,6 +13,21 @@ jobs:
       - name: Checkout repository
         uses: actions/checkout@v4
 
+      - name: Download start comment artifact
+        uses: dawidd6/action-download-artifact@v6
+        with:
+          workflow: deploy-to-dev-staging.yml
+          commit: ${{ github.event.pull_request.head.sha }}
+          name: start-comment
+          path: .
+
+      - name: Download done comment artifact
+        uses: dawidd6/action-download-artifact@v6
+        with:
+          workflow: deploy-to-dev-staging.yml
+          commit: ${{ github.event.pull_request.head.sha }}
+          name: done-comment
+
       - name: Jest Coverage Report
         uses: dawidd6/action-download-artifact@v6
         with:
@@ -35,6 +50,12 @@ jobs:
         run: |
           echo "### Consolidated Output" > consolidated_output.txt
            echo "" >> consolidated_output.txt
+          echo "#### Branch preview" >> consolidated_output.txt
+          if [ -f done_comment.txt ]; then
+            cat done_comment.txt >> consolidated_output.txt
+          else
+            cat start_comment.txt >> consolidated_output.txt
+          fi
            if [ -f jest-coverage-report.md ]; then
              echo "#### Jest Coverage Report" >> consolidated_output.txt
              cat jest-coverage-report.md >> consolidated_output.txt
