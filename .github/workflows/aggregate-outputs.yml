@@ -20,6 +20,7 @@ jobs:
           commit: ${{ github.event.pull_request.head.sha }}
           name: start-comment
           path: .
+        continue-on-error: true
 
       - name: Download done comment artifact
         uses: dawidd6/action-download-artifact@v6
@@ -27,6 +28,8 @@ jobs:
           workflow: deploy-dev.yml
           commit: ${{ github.event.pull_request.head.sha }}
           name: done-comment
+          path: .
+        continue-on-error: true
 
       - name: Jest Coverage Report
         uses: dawidd6/action-download-artifact@v6
