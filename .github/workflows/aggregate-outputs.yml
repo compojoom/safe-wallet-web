@@ -2,7 +2,7 @@ name: Aggregate Outputs and Post Comment
 
 on:
   workflow_run:
-    workflows: ["Unit tests", "Next.js Bundle Analysis"]
+    workflows: ["Unit tests", "Next.js Bundle Analysis", "Deploy to dev/staging"]
     types:
       - completed
 
@@ -53,18 +53,20 @@ jobs:
         run: |
           echo "### Consolidated Output" > consolidated_output.txt
            echo "" >> consolidated_output.txt
-          echo "#### Branch preview" >> consolidated_output.txt
-          if [ -f done_comment.txt ]; then
-            cat done-comment.txt >> consolidated_output.txt
+          
+          if [ -f done-comment.txt ]; then
+            echo "#### Branch preview" >> consolidated_output.txt
+            cat done-comment.txt >> consolidated_output.txt 
           else
-            cat start-comment.txt >> consolidated_output.txt
+            echo "#### Branch preview" >> consolidated_output.txt
+            cat start-comment.txt >> consolidated_output.txt || true
           fi
            if [ -f jest-coverage-report.md ]; then
              echo "#### Jest Coverage Report" >> consolidated_output.txt
              cat jest-coverage-report.md >> consolidated_output.txt
              echo "" >> consolidated_output.txt
            else
-             echo "#### Jest Coverage Report not found" >> consolidated_output.txt
+             echo "#### Jest Coverage Report not found" >> consolidated_output.txt 
            fi
            if [ -f next-bundle-analysis.txt ]; then
              echo "#### Next.js Bundle Analysis Report" >> consolidated_output.txt
