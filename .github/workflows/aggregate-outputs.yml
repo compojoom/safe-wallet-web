@@ -17,7 +17,8 @@ jobs:
         uses: dawidd6/action-download-artifact@v6
         with:
           workflow: deploy-dev.yml
-          commit: ${{ github.event.pull_request.head.sha }}
+          workflow_conclusion: ""
+          commit: ${{github.event.pull_request.head.sha}}
           name: start-comment
           path: .
         continue-on-error: true
@@ -26,7 +27,8 @@ jobs:
         uses: dawidd6/action-download-artifact@v6
         with:
           workflow: deploy-dev.yml
-          commit: ${{ github.event.pull_request.head.sha }}
+          workflow_conclusion: ""
+          commit: ${{github.event.pull_request.head.sha}}
           name: done-comment
           path: .
         continue-on-error: true
